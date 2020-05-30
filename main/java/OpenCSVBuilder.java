@@ -3,9 +3,10 @@ import com.opencsv.bean.CsvToBeanBuilder;
 
 import java.io.Reader;
 import java.util.Iterator;
+import java.util.List;
 
-public class OpenCSVBuilder<E>  implements ICSVBuilder {
-    public  Iterator<E> getCSVfileIterator(Reader reader, Class csvClass) {
+public  class OpenCSVBuilder<E>  implements ICSVBuilder {
+    public  Iterator<E> getCSVfileIterator(Reader reader, Class csvClass) throws CensusAnalyserException {
 
         try{
             CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
@@ -21,5 +22,10 @@ public class OpenCSVBuilder<E>  implements ICSVBuilder {
                             INVALID_DATA);
 
         }
+    }
+
+    @Override
+    public List getCSVFileList(Reader reader, Class csvClass) throws CSVBuilderException {
+        return null;
     }
 }
