@@ -1,8 +1,11 @@
 public class CensusAnalyserException extends RuntimeException {
 
+
+
     enum ExceptionType {
         CENSUS_FILE_PROBLEM,
-        INVALID_DATA
+        INVALID_DATA,
+        UNABLE_TO_PARSE
     }
 
    public  ExceptionType type;
@@ -15,5 +18,9 @@ public class CensusAnalyserException extends RuntimeException {
     public CensusAnalyserException(String message, ExceptionType type, Throwable cause) {
         super(message, cause);
         this.type = type;
+    }
+    public CensusAnalyserException(String name, String message) {
+        super(message);
+        this.type = ExceptionType.valueOf(name);
     }
 }

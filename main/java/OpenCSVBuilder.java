@@ -5,8 +5,9 @@ import java.io.Reader;
 import java.util.Iterator;
 import java.util.List;
 
+
 public  class OpenCSVBuilder<E>  implements ICSVBuilder {
-    public  Iterator<E> getCSVfileIterator(Reader reader, Class csvClass) throws CensusAnalyserException {
+    public  Iterator<E> getCSVfileIterator(Reader reader, Class csvClass) throws CSVBuilderException {
 
         try{
             CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
@@ -17,11 +18,16 @@ public  class OpenCSVBuilder<E>  implements ICSVBuilder {
 
         }
         catch(IllegalStateException e) {
-            throw  new CensusAnalyserException(e.getMessage(),
-                    CensusAnalyserException.ExceptionType.
-                            INVALID_DATA);
+            throw  new CSVBuilderException(CSVBuilderException.ExceptionType.INVALID_DATA,
+                    e.getMessage());
 
         }
+    }
+
+
+    @Override
+    public Iterator getCSVFileIterator(Reader reader, Class csvClass) throws CSVBuilderException {
+        return null;
     }
 
     @Override

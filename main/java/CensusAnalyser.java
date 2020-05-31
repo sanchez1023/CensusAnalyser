@@ -12,7 +12,7 @@ public class CensusAnalyser {
                 {
            ICSVBuilder csvBuilder=     CSVBuilderFactory.createCSVBuilder();
 
-            Iterator<IndiaCensusCSV> censusCSVIterator = csvBuilder.getCSVfileIterator(reader,IndiaCensusCSV.class);
+            Iterator<IndiaCensusCSV> censusCSVIterator = csvBuilder.getCSVFileIterator(reader,IndiaCensusCSV.class);
 
             return this.getCount(censusCSVIterator);
         } catch (IOException e) {
@@ -25,6 +25,8 @@ public class CensusAnalyser {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType
                             .INVALID_DATA);
+        } catch (CSVBuilderException e) {
+            throw new CensusAnalyserException(e.getMessage(),e.type.name());
         }
 
     }
@@ -36,7 +38,7 @@ public class CensusAnalyser {
             Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
             ICSVBuilder csvBuilder=     CSVBuilderFactory.createCSVBuilder();
 
-            Iterator<IndiaStateCode> censusCSVIterator = csvBuilder.getCSVfileIterator(reader,IndiaStateCode.class);
+            Iterator<IndiaStateCode> censusCSVIterator = csvBuilder.getCSVFileIterator(reader,IndiaStateCode.class);
 
             return this.getCount(censusCSVIterator);
         } catch (IOException e) {
@@ -49,6 +51,8 @@ public class CensusAnalyser {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.
                             INVALID_DATA);
+        } catch (CSVBuilderException e) {
+            throw new CensusAnalyserException(e.getMessage(),e.type.name());
         }
     }
 
