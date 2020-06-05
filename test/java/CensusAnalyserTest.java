@@ -150,6 +150,7 @@ public class CensusAnalyserTest {
             System.out.println(indiancensusList[0].stateCode);
             Assert.assertEquals("AN", indiancensusList[0].stateCode);
         } catch (CensusAnalyserException err) {
+
         }
     }
 
