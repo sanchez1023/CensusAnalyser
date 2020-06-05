@@ -20,7 +20,7 @@ public class CensusAnalyser {
 
 
     }
-    public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
+    public <E> int loadIndiaCensusData(String csvFilePath, Class<E> csvClass) throws CensusAnalyserException {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));)
                 {
            ICSVBuilder csvBuilder=     CSVBuilderFactory.createCSVBuilder();
@@ -48,7 +48,7 @@ public class CensusAnalyser {
 
 
 
-    public int loadIndianStateData(String csvFilePath) {
+    public <E> int loadIndianStateData(String csvFilePath,Class<E> csvClass) {
         try {
             Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
@@ -135,5 +135,16 @@ public class CensusAnalyser {
         } catch (CSVBuilderException e) {
             throw new CensusAnalyserException(e.type.name(), e.getMessage());
         }
+    }
+
+    public String getPopulationWiseSortedCensusData() throws CensusAnalyserException {
+        if (censusList == null || censusList.size() == 0) {
+            throw new CensusAnalyserException("NO census data",CensusAnalyserException.ExceptionType.NO_CENSUS_DATA );
+        }
+        Comparator<IndiaCensusDAO> censusComparator = Comparator.comparing(census -> census.population);
+        this.sort(censusComparator, censusList);
+        Collections.reverse(censusList);
+        String sortedStateCensusJson = new Gson().toJson(censusList);
+        return sortedStateCensusJson;
     }
 }
