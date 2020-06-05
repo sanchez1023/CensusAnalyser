@@ -4,6 +4,9 @@ public class IndiaStateCode {
 
     @CsvBindByName(column = "SrNo" , required = true)
     int srNo;
+    @CsvBindByName(column = "State")
+    public String State;
+
     @CsvBindByName(column = "State Name" , required = true)
     String stateName;
     @CsvBindByName(column = "TIN" , required = true)
