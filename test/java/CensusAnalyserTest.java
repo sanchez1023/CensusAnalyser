@@ -195,5 +195,20 @@ public class CensusAnalyserTest {
         }
 
     }
+    @Test
+    public void givenCensusData_whenSortedBasedOn_largest_state_by_area_should_return_sorted_data() {
+        CensusAnalyser censusAnalyser = new CensusAnalyser();
+        try {
+            censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH, IndiaCensusCSV.class);
+            String stateCodeWiseSortedCensusData = censusAnalyser.getAreaWiseStateCensusData();
+            CensusDAO[] indiancensusList = new Gson().fromJson(stateCodeWiseSortedCensusData, CensusDAO[].class);
+            System.out.println(indiancensusList[0]);
+            Assert.assertEquals(342239.0, indiancensusList[0].totalArea, 0);
+
+        } catch (CensusAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
