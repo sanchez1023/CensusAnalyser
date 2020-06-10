@@ -5,18 +5,19 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public class CensusAnalyser {
     List<IndiaCensusDAO> censusList=null;
     List<IndiaStateCodeDAO> indianStateList = null;
-    Map<String, IndiaCensusDAO> stateCensusMap;
+    Map<String, CensusDAO> stateCensusMap;
 
 
     public  CensusAnalyser(){
         this.censusList=new ArrayList<IndiaCensusDAO>( );
         this.indianStateList = new ArrayList<IndiaStateCodeDAO>();
-        this.stateCensusMap = new HashMap<String, IndiaCensusDAO>();
+        this.stateCensusMap = new HashMap<String, CensusDAO>();
 
 
     }
@@ -125,7 +126,7 @@ public class CensusAnalyser {
             while (censusIterator.hasNext()) {
                 IndiaStateCode object = censusIterator.next();
                 if (stateCensusMap.get(object.State) != null) {
-                    IndiaCensusDAO censusObject = stateCensusMap.get(object.State);
+                    CensusDAO censusObject = stateCensusMap.get(object.State);
                     censusObject.stateCode= object.stateCode;
                     stateCensusMap.put(object.State, censusObject);
                 }
@@ -156,5 +157,36 @@ public class CensusAnalyser {
         String sortedStateCensusJson = new Gson().toJson(censusList);
         return sortedStateCensusJson;
     }
+    public Comparator<CensusDAO> getComparater(String type) {
+        switch (type) {
+            case "totalArea":
+                return Comparator.comparing(census -> census.totalArea);
+            case "StateCode":
+                return Comparator.comparing(census -> census.stateCode);
+            case "populationDensity":
+                return Comparator.comparing(census -> census.populationDensity);
+            case "population":
+                return Comparator.comparing(census -> census.population);
+            case "state":
+                return Comparator.comparing(census -> census.state);
+            default:
+                return Comparator.comparing(census -> census.totalArea);
+        }
+    }
+    public String getSortedData(String type, boolean isReverse) throws CensusAnalyserException {
+        if (stateCensusMap == null || stateCensusMap.size() == 0) {
+            throw new CensusAnalyserException("NO census data",CensusAnalyserException.ExceptionType.NO_CENSUS_DATA );
+        }
+        Comparator<CensusDAO> censusComparator = getComparater(type);
+        List<CensusDAO> censusDAOS = stateCensusMap.values().stream().collect(Collectors.toList());
+        this.sort(censusComparator, censusDAOS);
+        if (isReverse)
+            Collections.reverse(censusDAOS);
+        String sortedStateCensusJson = new Gson().toJson(censusDAOS);
+        return sortedStateCensusJson;
+    }
+    public String getAreaWiseStateCensusData() {
+     return    this.getSortedData("totalArea", true);
 
+    }
 }
