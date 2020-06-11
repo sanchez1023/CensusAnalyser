@@ -1,7 +1,7 @@
+import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import com.google.gson.Gson;
 
 public class CensusAnalyserTest {
 
@@ -15,6 +15,7 @@ public class CensusAnalyserTest {
     private static final String WRONG_ISC_CSV_FILE_INVALID_HEADER="./src/test/resources/IscHeader.csv";
     private static final String WRONG_INDIAN_STATECODE_CSV_FILE_PATH = "./src/main/resources/IndiaStateCode.csv";
     private static final String WRONG_INDIAN_STATECODE_CSV_FILE_TYPE="./src/main/resources/IndiaStateCode.txt";
+    private static final String US_CENSUS_CSV_PATH = "./src/main/resources/USCensusData.csv";
 
 
     @Test
@@ -206,6 +207,22 @@ public class CensusAnalyserTest {
             Assert.assertEquals(342239.0, indiancensusList[0].totalArea, 0);
 
         } catch (CensusAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenUSCensusData_ShouldReturnCorrectRecords(){
+        try{
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+int censusDataCnt= censusAnalyser.loadUsCensusData(US_CENSUS_CSV_PATH);
+            System.out.println("valu eof count"+censusDataCnt);
+            Assert.assertEquals(51,censusDataCnt);
+        }
+
+
+
+         catch (CensusAnalyserException e) {
             e.printStackTrace();
         }
     }

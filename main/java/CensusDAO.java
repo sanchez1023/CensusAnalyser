@@ -18,4 +18,5 @@ public class CensusDAO {
         population = censuscsv.population;
         stateCode=censuscsv.stateId;
     }
+
 }
