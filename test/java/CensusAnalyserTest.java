@@ -73,7 +73,7 @@ public class CensusAnalyserTest {
     public void givenIndianStateCodeCsvFilePath_ShouldReturnProperRecords() {
         try {
             CensusAnalyser csvStateCensus = new CensusAnalyser();
-            int list = csvStateCensus.loadIndianStateData(INDIA_STATECODE_CSV_FILE_PATH,IndiaCensusCSV.class);
+            int list = csvStateCensus.loadIndianStateData(INDIA_STATECODE_CSV_FILE_PATH,IndiaStateCode.class);
             Assert.assertEquals(37, list);
         }
         catch (CensusAnalyserException e) {
