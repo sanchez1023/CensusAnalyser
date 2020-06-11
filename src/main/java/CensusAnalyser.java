@@ -7,13 +7,16 @@ import java.util.stream.StreamSupport;
 
 public class CensusAnalyser {
 
+    List<IndiaCensusCSV> censusCSVList =null;
+
     public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
         try {
             Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
 
             Iterator<IndiaCensusCSV> censusCSVIterator = new OpenCSVBuilder().getCSVfileIterator(reader,IndiaCensusCSV.class);
+             censusCSVList = new OpenCSVBuilder().getCSVfileList(reader,IndiaCensusCSV.class);
 
-            return this.getCount(censusCSVIterator);
+            return censusCSVList.size();
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType
