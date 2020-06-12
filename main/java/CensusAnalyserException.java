@@ -6,7 +6,8 @@ public class CensusAnalyserException extends RuntimeException {
         CENSUS_FILE_PROBLEM,
         INVALID_DATA,
         UNABLE_TO_PARSE,
-        NO_CENSUS_DATA
+        NO_CENSUS_DATA,
+         INVALID_COUNTRY ;
     }
 
    public  ExceptionType type;

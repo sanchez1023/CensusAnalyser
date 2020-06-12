@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public class CensusAnalyser {
+    public enum  Country {INDIA,US}
     List<IndiaCensusDAO> censusList=null;
     List<IndiaStateCodeDAO> indianStateList = null;
     Map<String, CensusDAO> stateCensusMap=null;
@@ -21,8 +22,8 @@ public class CensusAnalyser {
 
 
     }
-    public <E> int loadIndiaCensusData(Class<E> csvClass, String... csvFilePath) throws CensusAnalyserException {
-        stateCensusMap= new CensusLoader().loadCensusData(IndiaCensusCSV.class,csvFilePath);
+    public <E> int loadCensusData(Country country,Class<E> csvClass, String... csvFilePath) throws CensusAnalyserException {
+        stateCensusMap= new CensusLoader().loadCensusData(country,csvFilePath);
         return  stateCensusMap.size();
 
 
@@ -148,9 +149,5 @@ public class CensusAnalyser {
 
     }
 
-    public int  loadUsCensusData(String csvFilePath) throws CensusAnalyserException {
-        stateCensusMap= new CensusLoader().loadCensusData(UsCensusCSV.class,csvFilePath);
-    return  stateCensusMap.size();
-    }
 
 }
