@@ -28,4 +28,8 @@ public class UsCensusCSV {
 
     @CsvBindByName(column = "HousingDensity")
     public float housingDensity;
+
+    public UsCensusCSV(String state, String stateCode, int population, float populationDensity, float totalArea) {
+
+    }
 }
